@@ -27,7 +27,6 @@ router.get('/', async (req, res) => {
 
         let userRepository = connection.getRepository(User);
         let loadedUsers = await userRepository.find();
-        console.log(loadedUsers);
 
         res.send(loadedUsers);
         await connection.close();

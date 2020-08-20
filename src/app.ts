@@ -7,10 +7,18 @@ class App {
     public app: Application
     public port: number
 
-    constructor(appInit: { port: number; routes: any; }) {
+    constructor(appInit: { port: number; middleWares: any; routes: any; }) {
         this.app = express()
         this.port = appInit.port
+        this.middlewares(appInit.middleWares)
         this.routes(appInit.routes)
+    }
+
+    private middlewares(middleWares: { forEach: (arg0: (middleWare: any) => void) => void; }) {
+        this.app.use(cors());
+        middleWares.forEach(middleWare => {
+            this.app.use(middleWare)
+        })
     }
 
     private routes(route) {
