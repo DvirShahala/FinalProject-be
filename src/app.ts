@@ -7,11 +7,11 @@ class App {
 
 
     public app: Application
-    public port: number
+    public port: any
 
-    constructor(appInit: { port: number; middleWares: any; routes: any; }) {
+    constructor(appInit: { middleWares: any; routes: any; }) {
         this.app = express()
-        this.port = appInit.port
+        this.port = process.env.PORT || 3000 //appInit.port
         this.middlewares(appInit.middleWares)
         this.routes(appInit.routes)
     }
