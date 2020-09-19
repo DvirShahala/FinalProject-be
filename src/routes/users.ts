@@ -1,5 +1,5 @@
 import { createConnection } from "typeorm";
-import { user_table } from "../entity/User";
+import { User } from "../entity/User";
 import * as express from 'express'
 
 const router = express.Router()
@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
 
     await createConnection(options).then(async connection => {
 
-        let userRepository = connection.getRepository(user_table);
+        let userRepository = connection.getRepository(User);
         let loadedUsers = await userRepository.find();
 
         res.send(loadedUsers);
@@ -47,7 +47,7 @@ router.get('/', async (req, res) => {
 router.get('/specific',(req,res)=> {
     createConnection(options).then(async connection => {
         
-        let userRepository = connection.getRepository(user_table);  
+        let userRepository = connection.getRepository(User);  
         const loadedUser = await userRepository.find({ where: { email: req.query.email }});
         await connection.close();
 
@@ -61,12 +61,12 @@ router.post('/', async (req, res) => {
 
     createConnection(options).then(async connection => {
 
-        let user = new user_table();
+        let user = new User();
         user.email = req.body.email;
         user.fullName = req.body.fullName;
         user.password = req.body.password;
 
-        let userRepository = connection.getRepository(user_table);
+        let userRepository = connection.getRepository(User);
 
         await userRepository.save(user);
         await connection.close();
