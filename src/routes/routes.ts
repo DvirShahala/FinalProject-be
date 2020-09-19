@@ -36,7 +36,7 @@ router.use('/db', async (req, res) => {
       const client = await pool.connect();
       const result = await client.query('SELECT * FROM test_table');
       const results = { 'results': (result) ? result.rows : null};
-      res.set('view engine', 'jade');
+      //res.set('view engine', 'html');
       res.render('pages/db', results );
       client.release();
     } catch (err) {
