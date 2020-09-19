@@ -1,15 +1,11 @@
 {
-   "type": "postgres",
-   "host": "localhost",
-   "port": 5432,
-   "username": "postgres",
-   "password": "qwe123",
-   "database": "postgres",
-   "synchronize": true,
-   "logging": false,
+
+   "url": "${process.env.DATABASE_URL}",
+    "type": "postgres",
    "entities": [
       "src/entity/**/*.ts"
    ],
+   "synchronize": true,
    "migrations": [
       "src/migration/**/*.ts"
    ],

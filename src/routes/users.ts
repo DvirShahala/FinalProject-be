@@ -5,20 +5,29 @@ import * as express from 'express'
 const router = express.Router()
 
 
-const options:any = {
+// const options:any = {
 
-    type: "postgres",
-    host: "localhost",
-    port: 5432,
-    username: "postgres",
-    password: "qwe123",
-    database: "postgres",
+//     type: "postgres",
+//     host: "localhost",
+//     port: 5432,
+//     username: "postgres",
+//     password: "qwe123",
+//     database: "postgres",
+//     entities: [
+//         User
+//     ],
+//     synchronize: true,
+//     logging: false
+// }
+const options:any = {
+    url: process.env.DATABASE_URL,
+    type: 'postgres',
     entities: [
-        User
-    ],
-    synchronize: true,
-    logging: false
+        "src/entity/**/*.ts"
+     ],
+    synchronize: true
 }
+
 
 // GET all users
 router.get('/', async (req, res) => {
