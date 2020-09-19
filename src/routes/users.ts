@@ -4,7 +4,6 @@ import * as express from 'express'
 
 const router = express.Router()
 
-
 // const options:any = {
 
 //     type: "postgres",

@@ -13,16 +13,3 @@ export class User {
     password: string;
 
 }
-
-// export class user_table {
-
-//     @PrimaryColumn({length: 30})
-//     email: string;
-
-//     @Column({length: 30})
-//     fullName: string;
-
-//     @Column({length: 30})
-//     password: string;
-
-// }
