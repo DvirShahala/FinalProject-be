@@ -1,8 +1,13 @@
 import { createConnection } from "typeorm";
 import { User } from "../entity/User";
-import * as express from 'express'
+import * as express from "express";
+import * as jwt from "jsonwebtoken";
+import * as fs from "fs";
+import { resolve } from "path";
 
-const router = express.Router()
+const cookieParser = require("cookie-parser");
+const router = express.Router();
+const RSA_PRIVATE_KEY = fs.readFileSync("../../private.key");
 
 // const options:any = {
 
@@ -74,5 +79,45 @@ router.post('/', async (req, res) => {
 
     }).catch(error => console.log(error));
 })
+
+// POST login
+router.post("/login", (req, res) => {
+
+  createConnection(options)
+    .then(async (connection) => {
+
+      const emailUser = req.body.email;
+      const passwordUser = req.body.password;
+
+      let userRepository = connection.getRepository(User);
+      const loadedUser = await userRepository.find({
+        where: { email: emailUser, password: passwordUser },
+      });
+      await connection.close();
+
+      if (loadedUser.length != 0) {
+        const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
+          algorithm: "RS256",
+          expiresIn: 120,
+          subject: emailUser
+        });
+        //set it in an HTTP Only + Secure Cookie
+        // res.cookie("SESSIONID", jwtBearerToken, {
+        //   httpOnly: true,
+        //   secure: true,
+        // });
+
+        res.status(200).json({
+          idToken: jwtBearerToken, 
+          expiresIn: 120
+        });
+
+      } else {
+        // send status 401 Unauthorized
+        res.sendStatus(401);
+      }
+    })
+    .catch((error) => console.log(error));
+});
 
 export default router;
