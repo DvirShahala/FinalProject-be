@@ -3,8 +3,6 @@ import router from './routes/routes'
 import * as bodyParser from 'body-parser'
 import loggerMiddleware from './middleware/logger'
 
- 
-
 const app = new App({
 
     routes: router,

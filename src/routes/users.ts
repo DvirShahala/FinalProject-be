@@ -3,26 +3,11 @@ import { User } from "../entity/User";
 import * as express from "express";
 import * as jwt from "jsonwebtoken";
 import * as fs from "fs";
-import { resolve } from "path";
 
 const cookieParser = require("cookie-parser");
 const router = express.Router();
 const RSA_PRIVATE_KEY = fs.readFileSync("src/routes/private.key");
 
-// const options:any = {
-
-//     type: "postgres",
-//     host: "localhost",
-//     port: 5432,
-//     username: "postgres",
-//     password: "qwe123",
-//     database: "postgres",
-//     entities: [
-//         User
-//     ],
-//     synchronize: true,
-//     logging: false
-// }
 const options:any = {
     url: process.env.DATABASE_URL,
     type: 'postgres',
@@ -101,19 +86,13 @@ router.post("/login", (req, res) => {
           expiresIn: 120,
           subject: emailUser
         });
-        //set it in an HTTP Only + Secure Cookie
-        // res.cookie("SESSIONID", jwtBearerToken, {
-        //   httpOnly: true,
-        //   secure: true,
-        // });
-
         res.status(200).json({
           idToken: jwtBearerToken, 
           expiresIn: 120
         });
 
       } else {
-        // send status 401 Unauthorized
+        // Send status 401 Unauthorized
         res.sendStatus(401);
       }
     })
