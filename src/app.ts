@@ -2,13 +2,16 @@ import * as express from 'express'
 import { Application } from 'express'
 const cors = require('cors');
 
-class App {
-    public app: Application
-    public port: number;
 
-    constructor(appInit: { middleWares, routes }) {
+class App {
+
+
+    public app: Application
+    public port: any
+
+    constructor(appInit: { middleWares: any; routes: any; }) {
         this.app = express()
-        this.port = Number(process.env.PORT) || 3000 //appInit.port
+        this.port = process.env.PORT || 3000 //appInit.port
         this.middlewares(appInit.middleWares)
         this.routes(appInit.routes)
     }
